@@ -94,6 +94,8 @@ blob_fixups: blob_fixups_user_type = {
        'vendor/etc/media_codecs_ravelin.xml',
     ): blob_fixup()
         .regex_replace('.+media_codecs_(google_audio|google_c2|google_telephony|vendor_audio|dolby_audio).+\n', ''),
+    'system_ext/lib64/libwfdmmsrc_system.so': blob_fixup()
+        .add_needed('libgui_shim.so'),
     'system_ext/lib64/libwfdservice.so': blob_fixup()
         .replace_needed('android.media.audio.common.types-V4-cpp.so', 'android.media.audio.common.types-V5-cpp.so'),
     'system_ext/priv-app/ims/ims.apk': blob_fixup()
