@@ -244,8 +244,7 @@ PRODUCT_PACKAGES += \
     LineageSettingsProviderMumba \
     LineageApertureAppMumba \
     LineageSdkMumba \
-    NfcResMumba \
-    SecureElementOverlayMumba
+    NfcResMumba
 
 PRODUCT_PACKAGES += \
     NcmTetheringOverlay
