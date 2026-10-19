@@ -129,7 +129,10 @@ BOARD_USES_METADATA_PARTITION := true
 # Partitions
 -include vendor/lineage/config/BoardConfigReservedSize.mk
 BOARD_BUILD_VENDOR_RAMDISK_IMAGE := true
-
+ifeq ($(WITH_GMS),true)
+BOARD_EROFS_COMPRESSOR := lz4
+BOARD_EROFS_PCLUSTER_SIZE := 262144
+endif
 BOARD_FLASH_BLOCK_SIZE := 131072 # (BOARD_KERNEL_PAGESIZE * 32)
 BOARD_BOOTIMAGE_PARTITION_SIZE := 100663296
 BOARD_DTBOIMG_PARTITION_SIZE := 25165824
@@ -143,8 +146,13 @@ BOARD_SUPER_PARTITION_GROUPS := mot_dp_group
 BOARD_MOT_DP_GROUP_SIZE := 8585740288 # (BOARD_SUPER_PARTITION_SIZE - 4MB)
 BOARD_MOT_DP_GROUP_PARTITION_LIST := product system system_dlkm system_ext vendor vendor_dlkm
 
+ifeq ($(WITH_GMS),true)
+MOT_DP_FS_TYPE := erofs
+else
+MOT_DP_FS_TYPE := ext4
+endif
 $(foreach p, $(call to-upper, $(BOARD_MOT_DP_GROUP_PARTITION_LIST)), \
-    $(eval BOARD_$(p)IMAGE_FILE_SYSTEM_TYPE := ext4) \
+    $(eval BOARD_$(p)IMAGE_FILE_SYSTEM_TYPE := $(MOT_DP_FS_TYPE)) \
     $(eval TARGET_COPY_OUT_$(p) := $(call to-lower, $(p))))
 
 # Platform
